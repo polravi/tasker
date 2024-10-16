@@ -1,0 +1,168 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+}
+
+h1 {
+    text-align: center;
+}
+
+.matrix {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 20px;
+}
+
+.quadrant {
+    border: 2px solid #333;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    margin-bottom: 5px;
+}
+
+input[type="text"] {
+    width: 70%;
+    padding: 5px;
+}
+
+button {
+    padding: 5px 10px;
+}
+
+#add-task-panel {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #f0f0f0;
+    padding: 10px;
+    transition: max-height 0.3s ease-out;
+    max-height: 200px;
+    overflow: hidden;
+}
+
+#add-task-panel.collapsed {
+    max-height: 40px;
+}
+
+#toggle-panel {
+    width: 100%;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+#panel-content {
+    margin-top: 10px;
+}
+
+#new-task-input {
+    width: 100%;
+    padding: 5px;
+    margin-bottom: 10px;
+}
+
+#checkboxes {
+    margin-bottom: 10px;
+}
+
+#add-task-button {
+    padding: 5px 10px;
+    background-color: #008CBA;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+#urgent-not-important {
+    position: relative;
+    overflow: hidden;
+}
+
+.delegate-banner {
+    position: absolute;
+    top: 25px;
+    right: -50px;
+    transform: rotate(45deg);
+    background-color: #ff6b6b;
+    color: white;
+    padding: 5px 40px;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+    z-index: 1;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+/* Adjust the quadrant padding to accommodate the banner */
+#urgent-not-important h2,
+#urgent-not-important ul {
+    position: relative;
+    z-index: 2;
+}
+
+#urgent-not-important {
+    padding-top: 40px;
+}
+
+#matrix-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 10px;
+    height: 80vh;
+    width: 80vw;
+    margin: 20px auto;
+}
+
+#urgent-important {
+    background-color: #ffcccb; /* Light red */
+}
+
+#not-urgent-important {
+    background-color: #90ee90; /* Light green */
+}
+
+#not-urgent-not-important {
+    background-color: #e6e6fa; /* Lavender */
+}
+
+.quadrant h2 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 1.2em;
+    text-align: center;
+}
+
+.quadrant ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.quadrant li {
+    margin-bottom: 5px;
+    padding: 5px;
+    background-color: rgba(255, 255, 255, 0.7);
+    border-radius: 3px;
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 768px) {
+    #matrix-container {
+        grid-template-columns: 1fr;
+        grid-template-rows: repeat(4, 1fr);
+        height: auto;
+        width: 90vw;
+    }
+}
