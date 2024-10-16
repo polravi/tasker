@@ -7,14 +7,73 @@ function addTask(quadrant, task) {
     const list = document.getElementById(`${quadrant}-list`);
     const li = document.createElement('li');
     li.textContent = task;
+    li.draggable = true;
+    li.addEventListener('dragstart', drag);
+    li.id = 'task-' + Date.now(); // Unique ID for each task
     list.appendChild(li);
 
     // Save tasks to localStorage
     saveTasks();
 }
 
+/**
+ * Allows an element to receive dropped items.
+ * @param {Event} ev - The dragover event.
+ */
+function allowDrop(ev) {
+    ev.preventDefault();
+}
+
+/**
+ * Handles the start of a drag operation.
+ * @param {Event} ev - The dragstart event.
+ */
+function drag(ev) {
+    console.log('Drag started', ev.target.id);
+    ev.dataTransfer.setData("text", ev.target.id);
+}
+
+/**
+ * Handles the drop of an item.
+ * @param {Event} ev - The drop event.
+ */
+function drop(ev) {
+    ev.preventDefault();
+    var data = ev.dataTransfer.getData("text");
+    console.log('Drop', data);
+    ev.target.closest('.quadrant').querySelector('ul').appendChild(document.getElementById(data));
+
+    // Save tasks to localStorage after moving
+    saveTasks();
+}
+
+/**
+ * Saves all tasks to localStorage.
+ */
+function saveTasks() {
+    const tasks = {};
+    document.querySelectorAll('.quadrant').forEach(quadrant => {
+        const quadrantId = quadrant.id;
+        const taskList = quadrant.querySelector('ul');
+        tasks[quadrantId] = Array.from(taskList.children).map(li => li.textContent);
+    });
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+}
+
+/**
+ * Loads tasks from localStorage and populates the quadrants.
+ */
+function loadTasks() {
+    const tasks = JSON.parse(localStorage.getItem('tasks')) || {};
+    Object.entries(tasks).forEach(([quadrantId, taskList]) => {
+        taskList.forEach(task => addTask(quadrantId, task));
+    });
+}
+
 // Load tasks from localStorage on startup
 document.addEventListener('DOMContentLoaded', () => {
+    loadTasks();
+    
     const quadrants = ['urgent-important', 'not-urgent-important', 'urgent-not-important', 'not-urgent-not-important'];
     
     quadrants.forEach(quadrant => {
